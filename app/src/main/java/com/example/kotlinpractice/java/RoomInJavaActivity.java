@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,8 +27,11 @@ public class RoomInJavaActivity extends AppCompatActivity {
         mTodoEditText = findViewById(R.id.todo_edit);
         mResultTextView = findViewById(R.id.result_text);
 
+        HandlerThread handlerThread = new HandlerThread("db-thread");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper());
+
         AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, "todo-db")
-                .allowMainThreadQueries() // 해당 옵션은 메인쓰레드에서 db조작 할수 있도록 해주는 메소드 실무에서는 쓰이지 않음
                 .build(); //데이터 베이스 생성
 
         db.todoDao().getAll().observe(this, todos -> { //todoDao().getAll()은 LiveData로 감싸져 있으므로 관찰(observe)이 가능함
@@ -37,6 +42,9 @@ public class RoomInJavaActivity extends AppCompatActivity {
         mResultTextView.setText(db.todoDao().getAll().toString());
 
         findViewById(R.id.add_button).setOnClickListener(v ->
-                db.todoDao().insert(new Todo(mTodoEditText.getText().toString())));
+                handler.post(() -> {
+                    db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
+                }));
+
     }
 }
