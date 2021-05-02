@@ -1,5 +1,6 @@
 package com.example.kotlinpractice.java;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,7 +17,8 @@ import java.util.List;
 @Dao
 public interface TodoDao {
     @Query("SELECT * FROM Todo")
-    List<Todo> getAll(); // todo 테이블의 모든 데이터를 가져오는 메소드
+    // todo 테이블의 모든 데이터를 가져오는 메소드
+    LiveData<List<Todo>> getAll(); //LiveDAta 키워드로 감싸게 되면 해당 데이터는 관찰 가능한 data가 됨.
 
     @Insert
     void insert(Todo todo); // 데이터를 넣기 위한 메소드
