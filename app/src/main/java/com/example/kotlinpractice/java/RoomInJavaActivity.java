@@ -2,6 +2,8 @@ package com.example.kotlinpractice.java;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
 import android.os.Bundle;
@@ -27,24 +29,19 @@ public class RoomInJavaActivity extends AppCompatActivity {
         mTodoEditText = findViewById(R.id.todo_edit);
         mResultTextView = findViewById(R.id.result_text);
 
-        HandlerThread handlerThread = new HandlerThread("db-thread");
-        handlerThread.start();
-        Handler handler = new Handler(handlerThread.getLooper());
 
-        AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, "todo-db")
-                .build(); //데이터 베이스 생성
+        RoomInJavaViewModel viewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(RoomInJavaViewModel.class);
 
-        db.todoDao().getAll().observe(this, todos -> { //todoDao().getAll()은 LiveData로 감싸져 있으므로 관찰(observe)이 가능함
+
+        viewModel.getAll().observe(this, todos -> { //todoDao().getAll()은 LiveData로 감싸져 있으므로 관찰(observe)이 가능함
             //데이터가 변경될때마다 불리는 scope
             mResultTextView.setText(todos.toString());
         });
 
-        mResultTextView.setText(db.todoDao().getAll().toString());
-
-        findViewById(R.id.add_button).setOnClickListener(v ->
-                handler.post(() -> {
-                    db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
-                }));
+        findViewById(R.id.add_button).setOnClickListener(v -> {
+            viewModel.insert(new Todo(mTodoEditText.getText().toString()));
+        });
 
     }
 }
