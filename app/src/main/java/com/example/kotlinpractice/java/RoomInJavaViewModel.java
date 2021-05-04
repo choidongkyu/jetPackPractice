@@ -3,6 +3,7 @@ package com.example.kotlinpractice.java;
 import android.app.Application;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,6 +17,7 @@ public class RoomInJavaViewModel extends AndroidViewModel { //context가 필요�
     private AppDatabase db;
     private HandlerThread handlerThread;
     private Handler handler;
+    public LiveData<List<Todo>> todos;
 
     public RoomInJavaViewModel(@NonNull Application application) {
         super(application);
@@ -25,9 +27,12 @@ public class RoomInJavaViewModel extends AndroidViewModel { //context가 필요�
         handlerThread = new HandlerThread("db-thread");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
+
+        todos = getAll();
     }
 
     public LiveData<List<Todo>> getAll() {
+        Log.d("test11", "getall called");
         return db.todoDao().getAll();
     }
 
