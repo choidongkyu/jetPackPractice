@@ -18,16 +18,18 @@ class RoomInKotlinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRoomInKotlinBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.lifecycleOwner = this //LiveData를 활용하기 위해
 
         //val viewModel = ViewModelProvider(this).get(RoomInKotlinViewModel::class.java)
         val viewModel: RoomInKotlinViewModel by viewModels()
-
-
-        viewModel.getAll().observe(this, Observer {
-            //데이터가 변경될때마다 불리는 scope
-            binding.resultText.text = it.toString()
-        })
+        
+        binding.viewModel = viewModel //bingding객체에 view 모델 주입
+        
+        //binding 객체에 viewmodel을 주입하므로써 아래의 코드는 xml에서 대체 가능
+//        viewModel.getAll().observe(this, Observer {
+//            //데이터가 변경될때마다 불리는 scope
+//            binding.resultText.text = it.toString()
+//        })
 
         findViewById<View>(R.id.add_button).setOnClickListener { v: View? ->
             lifecycleScope.async(Dispatchers.Default) { //Dispatchers.io workerThread로 정의

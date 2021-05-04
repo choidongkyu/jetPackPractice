@@ -9,6 +9,7 @@ import com.example.kotlinpractice.kotlin.AppDatabase
 class RoomInKotlinViewModel(application: Application) : AndroidViewModel(application) {
     private var db: AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, "todo-db-ko")
         .build()
+    var todos = getAll()
 
 
     fun getAll(): LiveData<List<Todo>> {
