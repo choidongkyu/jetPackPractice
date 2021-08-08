@@ -22,7 +22,7 @@ class RoomInKotlinActivity : AppCompatActivity() {
 
         //val viewModel = ViewModelProvider(this).get(RoomInKotlinViewModel::class.java)
         val viewModel: RoomInKotlinViewModel by viewModels()
-        
+
         binding.viewModel = viewModel //bingding객체에 view 모델 주입
         
         //binding 객체에 viewmodel을 주입하므로써 아래의 코드는 xml에서 대체 가능
