@@ -1,9 +1,8 @@
-package com.example.kotlinpractice
+package com.example.kotlinpractice.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
+import com.example.kotlinpractice.R
 
 //코틀린의 상속 - 일반적인 extends인 경우 클래스 뒤에 ()와 같은 괄호가 붘음
 //ex MainActivity : AppCompatActivity()
