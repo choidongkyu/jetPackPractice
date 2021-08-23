@@ -9,9 +9,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinpractice.R
 import com.example.kotlinpractice.databinding.FragmentSecondBinding
+import com.example.kotlinpractice.ui.data.MyRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
+
+    @Inject
+    lateinit var repository: MyRepository
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

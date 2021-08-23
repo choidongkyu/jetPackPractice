@@ -10,10 +10,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinpractice.R
 import com.example.kotlinpractice.databinding.FragmentMainBinding
+import com.example.kotlinpractice.ui.data.MyRepository
 import com.example.kotlinpractice.ui.second.SecondActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
+
+    @Inject
+    lateinit var repository: MyRepository
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
